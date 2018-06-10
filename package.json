@@ -1,0 +1,42 @@
+{
+  "name": "react-code-splitting",
+  "version": "1.0.0",
+  "description": "Code splitting in a React application written in Typescript",
+  "main": "index.tsx",
+  "repository": "https://github.com/mike-plummer/react-code-splitting.git",
+  "author": "Mike Plummer",
+  "license": "MIT",
+  "scripts": {
+    "dev": "webpack-dev-server --mode=development",
+    "build": "webpack --mode=production"
+  },
+  "dependencies": {
+    "react": "^16.4.0",
+    "react-dom": "^16.4.0",
+    "react-router": "^4.3.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.0.0-beta.49",
+    "@babel/preset-env": "^7.0.0-beta.49",
+    "@babel/preset-react": "^7.0.0-beta.49",
+    "@babel/preset-stage-2": "^7.0.0-beta.49",
+    "@babel/runtime": "^7.0.0-beta.49",
+    "@types/react": "^16.3.17",
+    "@types/react-dom": "^16.0.6",
+    "@types/react-redux": "^6.0.2",
+    "@types/redux-saga": "^0.10.5",
+    "awesome-typescript-loader": "^5.0.0",
+    "babel-loader": "8.0.0-beta.3",
+    "css-loader": "^0.28.11",
+    "html-webpack-plugin": "^3.2.0",
+    "image-webpack-loader": "^4.3.1",
+    "mini-css-extract-plugin": "^0.4.0",
+    "redux": "^4.0.0",
+    "redux-saga": "^0.16.0",
+    "style-loader": "^0.21.0",
+    "typescript": "2.8.3",
+    "webpack": "^4.12.0",
+    "webpack-cli": "^3.0.3",
+    "webpack-dev-server": "^3.1.4"
+  }
+}

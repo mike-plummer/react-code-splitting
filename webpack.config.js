@@ -1,0 +1,67 @@
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+module.exports = {
+  entry: './src/js/index.tsx',
+  output: {
+    filename: '[chunkname].[chunkhash].js'
+  },
+  resolve: {
+    extensions: ['.tsx', '.ts', '.jsx', '.js', '.css']
+  },
+  devtool: 'cheap-module-source-map',
+  module: {
+    rules: [
+      {
+        test: /.tsx?$/,
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: 'awesome-typescript-loader',
+            options: {
+              babelCore: "@babel/core", // Use Babel7
+              useBabel: true,
+              useCache: true
+            }
+          }
+        ]
+      },
+      {
+        test: /.jsx?$/,
+        exclude: '/node_modules',
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              cacheDirectory: true
+            }
+          }
+        ]
+      },
+      {
+        test: /\.css$/,
+        use: [
+          { loader: 'style-loader' },
+          { loader: 'css-loader' }
+        ]
+      },
+      {
+        test: /\.(jpe?g|png|gif|svg)$/i,
+        use: [
+          'file-loader',
+          {
+            loader: 'image-webpack-loader',
+            options: {
+              bypassOnDebug: true, // webpack@1.x
+              disable: true, // webpack@2.x and newer
+            },
+          },
+        ]
+      }
+    ]
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: './index.html'
+    })
+  ]
+};
