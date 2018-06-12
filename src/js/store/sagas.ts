@@ -1,7 +1,8 @@
-import { SagaIterator } from 'redux-saga';
+import { flatten } from 'lodash';
+import Landing from '../landing/store/landing.sagas';
 
-const triggers = function*(): SagaIterator {
-
-};
-
-export default triggers;
+export default function* root() {
+  yield flatten([
+    Landing
+  ]);
+}

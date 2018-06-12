@@ -1,8 +1,8 @@
-import { buildReducer } from '../../util/redux.utils';
+import { createReducer } from '../../util/redux.utils';
 import { State } from '../../types/state';
 
 const initialState: State.Landing = {};
 
-export default buildReducer(initialState, {
+export default createReducer(initialState, {
 
 });

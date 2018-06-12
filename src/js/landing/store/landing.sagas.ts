@@ -1,12 +1,13 @@
-import { fork, takeLatest } from 'redux-saga/effects'
+import { takeLatest } from 'redux-saga/effects'
 import { SagaIterator } from 'redux-saga';
+import LandingActions, { LandingActionTypes } from './landing.actions';
+import { createWatchers, WatcherConfig } from '../../util/saga.utils';
 
-// worker Saga: will be fired on USER_FETCH_REQUESTED actions
-function* fetchUser(action): SagaIterator {
+function* loaded(action: LandingActionTypes.Loaded): SagaIterator {
 }
 
-function* triggers(): SagaIterator {
-  yield takeLatest("USER_FETCH_REQUESTED", fetchUser);
-}
+const watchers = createWatchers({
+  [LandingActions.TYPES.LOADED]: { saga: loaded, effect: takeLatest }
+});
 
-export default triggers;
+export default watchers;
