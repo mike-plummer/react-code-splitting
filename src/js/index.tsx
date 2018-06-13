@@ -4,7 +4,7 @@ import { applyMiddleware, createStore } from 'redux'
 import createSagaMiddleware from 'redux-saga'
 
 import { rootReducer } from './store/reducer';
-import { Landing } from './landing/landing';
+import { App } from './app/app';
 import sagas from './store/sagas';
 
 // create the saga middleware
@@ -20,6 +20,6 @@ const store = createStore(
 
 
 ReactDOM.render(
-  <Landing/>,
+  <App/>,
   document.getElementById('root')
 );

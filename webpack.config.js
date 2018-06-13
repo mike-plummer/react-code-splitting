@@ -1,7 +1,15 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: './src/js/index.tsx',
+  entry: {
+    app: ['@babel/polyfill', './src/js/index.tsx']
+  },
+  optimization: {
+    splitChunks: {
+      name: true,
+      chunks: 'all'
+    }
+  },
   output: {
     filename: '[chunkname].[chunkhash].js'
   },

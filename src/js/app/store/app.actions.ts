@@ -1,12 +1,12 @@
 import { Action } from 'redux';
 import { createAction } from '../../util/redux.utils';
 
-export namespace LandingActionTypes {
+export namespace AppActionTypes {
   export interface Loaded extends Action {}
 }
 
 const TYPES = {
-  LOADED: 'LANDING.LOADED'
+  LOADED: 'APP.LOADED'
 };
 
 const CREATORS = {

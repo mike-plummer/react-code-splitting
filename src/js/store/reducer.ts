@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
-import landing from '../landing/store/landing.reducer';
+import app from '../app/store/app.reducer';
 
 export const rootReducer = combineReducers({
-  landing
+  app
 });
