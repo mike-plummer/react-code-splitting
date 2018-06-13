@@ -22,7 +22,7 @@ export const AsyncContext = Loadable({
   });
 
 export const AsyncPointerEvents = Loadable({
-  loader: () => import(/* webpackChunkName: "pointerEvents" */ './pointerEvents/pointerEvents'),
+  loader: () => import(/* webpackChunkName: "pointerEvents" */ './pointerEvents/pointerEvents' as any),
   loading: Loading,
   delay: DELAY
 });
