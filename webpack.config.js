@@ -11,7 +11,7 @@ module.exports = {
     }
   },
   output: {
-    filename: '[chunkname].[chunkhash].js'
+    filename: '[chunkname].[hash].js'
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.jsx', '.js', '.css']
