@@ -12,10 +12,14 @@ module.exports = {
   },
   output: {
     filename: '[name].bundle.js',
-    chunkFilename: '[name].bundle.js'
+    chunkFilename: '[name].bundle.js',
+    publicPath: '/'
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.jsx', '.js', '.css']
+  },
+  devServer: {
+    historyApiFallback: true
   },
   devtool: 'cheap-module-source-map',
   module: {
@@ -61,6 +65,10 @@ module.exports = {
             loader: 'image-webpack-loader',
           },
         ]
+      },
+      {
+        test: /\.(eot|svg|ttf|woff|woff2)$/,
+        loader: 'file-loader?name=public/fonts/[name].[ext]'
       }
     ]
   },
