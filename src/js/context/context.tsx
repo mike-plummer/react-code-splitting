@@ -4,6 +4,7 @@ import { Button, Segment } from 'semantic-ui-react';
 interface ContentProps {
   language: string;
 }
+
 interface LanguageState {
   language: string;
 }
@@ -20,10 +21,13 @@ class LanguageProvider extends React.Component<{}, LanguageState> {
     return (
       <LanguageContext.Provider value={this.state.language}>
         <Segment>
-        <Button onClick={this.setToEnglish}>English</Button>
-        <Button onClick={this.setToSpanish}>English</Button>
+          <Button onClick={this.setToEnglish}>English</Button>
+          <Button onClick={this.setToSpanish}>Spanish</Button>
+
+          <p>No props are passed down to the children of this component</p>
+
+          {this.props.children}
         </Segment>
-        {this.props.children}
       </LanguageContext.Provider>
     );
   }
@@ -33,7 +37,12 @@ class I10NContent extends React.Component<{}> {
   render(): React.ReactNode {
     return (
       <LanguageContext.Consumer>
-        {language => <Content language={language}/>}
+        {language => (
+          <Segment>
+            <p>Everything in here magically has access to anything defined on the context</p>
+            <Content language={language}/>
+          </Segment>
+        )}
       </LanguageContext.Consumer>
     );
   }

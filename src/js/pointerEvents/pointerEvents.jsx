@@ -34,13 +34,18 @@ class PointerEvents extends React.Component {
   render() {
     return (
       <Segment className="PointerEvents">
+        <p>
+          Before React v16.4 you'd be stuck with MouseEvents which didn't always work as expected for non-mouse
+          interfaces like Touchscreens. With the PointerEvent spec you get better support for non-mouse Pointer
+          capabilities.
+        </p>
         <canvas
-          ref={this.canvasRef}
-          height={400}
-          width={400}
-          onPointerDown={this.onClick}
-          onPointerUp={this.onRelease}
-          onPointerMove={this.onMove}
+          ref={ this.canvasRef }
+          height={ 400 }
+          width={ 400 }
+          onPointerDown={ this.onClick }
+          onPointerUp={ this.onRelease }
+          onPointerMove={ this.onMove }
         />
       </Segment>
     );

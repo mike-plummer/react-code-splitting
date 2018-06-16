@@ -1,8 +1,9 @@
 import * as React from 'react';
-import { Button, Container } from 'semantic-ui-react';
+import { Container, Menu } from 'semantic-ui-react';
 import { AsyncContext, AsyncPointerEvents } from '../async.components';
 import { NavLink, Redirect, Route, Switch } from 'react-router-dom';
 import { hot } from 'react-hot-loader'
+import './app.css';
 
 interface AppProps {
 }
@@ -12,12 +13,14 @@ class AppComponent extends React.Component<AppProps> {
   render(): React.ReactNode {
     return (
       <Container>
-        <Button>
-          <NavLink to="/context">Context</NavLink>
-        </Button>
-        <Button>
-          <NavLink to="/pointerEvents">Pointer Events</NavLink>
-        </Button>
+        <Menu secondary pointing>
+          <Menu.Item
+            content={<div><NavLink to="/context">Context</NavLink></div>}
+          />
+          <Menu.Item
+            content={<div><NavLink to="/pointerEvents">Pointer Events</NavLink></div>}
+          />
+        </Menu>
         <Switch>
           <Route path="/context" component={AsyncContext}/>
           <Route path="/pointerEvents" component={AsyncPointerEvents}/>
