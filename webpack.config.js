@@ -11,7 +11,8 @@ module.exports = {
     }
   },
   output: {
-    filename: '[chunkname].[hash].js'
+    filename: '[name].bundle.js',
+    chunkFilename: '[name].bundle.js'
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.jsx', '.js', '.css']
