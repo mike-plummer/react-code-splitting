@@ -33,24 +33,36 @@ class LanguageProvider extends React.Component<{}, LanguageState> {
   }
 }
 
+const UninterestedComponent = () => {
+  console.log('Rendering a component that doesn\'t care about Context');
+  return (
+    <p>This content doesn't care about Context, so it won't re-render on a Context change even though it's a child</p>
+  );
+};
+
 class I10NContent extends React.Component<{}> {
   render(): React.ReactNode {
     return (
-      <LanguageContext.Consumer>
-        {language => (
-          <Segment>
-            <p>Everything in here magically has access to anything defined on the context</p>
-            <Content language={language}/>
-          </Segment>
-        )}
-      </LanguageContext.Consumer>
+      <>
+        <UninterestedComponent/>
+        <LanguageContext.Consumer>
+          {language => (
+            <Segment>
+              <p>Everything in here magically has access to anything defined on the context</p>
+              <InterestedComponent language={language}/>
+            </Segment>
+          )}
+        </LanguageContext.Consumer>
+      </>
     );
   }
 }
 
-class Content extends React.Component<ContentProps> {
+class InterestedComponent extends React.Component<ContentProps> {
   render(): React.ReactNode {
     const { language } = this.props;
+
+    console.log('Rendering a component that does care about Context');
 
     return (
       <Segment>
@@ -66,9 +78,16 @@ class Content extends React.Component<ContentProps> {
 }
 
 const Context: React.SFC<{}> = () => (
-  <LanguageProvider>
-    <I10NContent/>
-  </LanguageProvider>
+  <>
+    <p>
+      React v16.3 added a new Context capability that supports a Redux-ish ability to pass data down to children without
+      actually flowing props through manually. This allows for looser coupling of components while also reducing
+      unnecessary re-renders of intermediary components.
+    </p>
+    <LanguageProvider>
+      <I10NContent/>
+    </LanguageProvider>
+  </>
 );
 
 export default Context;
