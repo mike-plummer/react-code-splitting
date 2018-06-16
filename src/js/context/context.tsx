@@ -36,7 +36,10 @@ class LanguageProvider extends React.Component<{}, LanguageState> {
 const UninterestedComponent = () => {
   console.log('Rendering a component that doesn\'t care about Context');
   return (
-    <p>This content doesn't care about Context, so it won't re-render on a Context change even though it's a child</p>
+    <>
+      <Segment>This content doesn't care about Context, so it won't re-render on a Context change even though it's a child</Segment>
+      <I10NContent/>
+    </>
   );
 };
 
@@ -44,11 +47,10 @@ class I10NContent extends React.Component<{}> {
   render(): React.ReactNode {
     return (
       <>
-        <UninterestedComponent/>
         <LanguageContext.Consumer>
           {language => (
             <Segment>
-              <p>Everything in here magically has access to anything defined on the context</p>
+              <p>Everything in here magically has access to anything defined on the context and will re-render on Context changes</p>
               <InterestedComponent language={language}/>
             </Segment>
           )}
@@ -85,7 +87,7 @@ const Context: React.SFC<{}> = () => (
       unnecessary re-renders of intermediary components.
     </p>
     <LanguageProvider>
-      <I10NContent/>
+      <UninterestedComponent/>
     </LanguageProvider>
   </>
 );
