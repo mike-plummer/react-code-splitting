@@ -6,6 +6,13 @@ class PointerEvents extends React.Component {
 
   canvasRef = React.createRef();
 
+  constructor() {
+    super();
+    this.state = {
+      pointerCaptured: false
+    };
+  }
+
   translateCoordinates = event => {
     const canvasRect = this.canvasRef.current.getBoundingClientRect();
     return {
@@ -14,7 +21,9 @@ class PointerEvents extends React.Component {
     };
   };
 
-  onClick = () => {
+  onDown = event => {
+    event.target.setPointerCapture(event.pointerId);
+
     const context = this.canvasRef.current.getContext('2d');
     context.strokeStyle = '#FF0000';
   };
@@ -31,9 +40,21 @@ class PointerEvents extends React.Component {
     context.stroke();
   };
 
+  onCapture = () => {
+    this.setState({
+      pointerCaptured: true
+    });
+  };
+
+  onLoss = () => {
+    this.setState({
+      pointerCaptured: false
+    });
+  };
+
   render() {
     return (
-      <Segment className="PointerEvents">
+      <Segment className="PointerEvents" color={this.state.pointerCaptured ? 'blue' : undefined}>
         <p>
           Before React v16.4 you'd be stuck with MouseEvents which didn't always work as expected for non-mouse
           interfaces like Touchscreens. With the PointerEvent spec you get better support for non-mouse Pointer
@@ -43,9 +64,11 @@ class PointerEvents extends React.Component {
           ref={ this.canvasRef }
           height={ 400 }
           width={ 400 }
-          onPointerDown={ this.onClick }
+          onPointerDown={ this.onDown }
           onPointerUp={ this.onRelease }
           onPointerMove={ this.onMove }
+          onGotPointerCapture={this.onCapture}
+          onLostPointerCapture={this.onLoss}
         />
       </Segment>
     );

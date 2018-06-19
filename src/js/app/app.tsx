@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Container, Menu } from 'semantic-ui-react';
 import { AsyncContext, AsyncPointerEvents } from '../async.components';
+import Landing from '../landing';
 import { NavLink, Redirect, Route, Switch } from 'react-router-dom';
 import { hot } from 'react-hot-loader'
 import './app.css';
@@ -22,6 +23,7 @@ class AppComponent extends React.Component<AppProps> {
           />
         </Menu>
         <Switch>
+          <Route exact path="/" component={Landing} />
           <Route path="/context" component={AsyncContext}/>
           <Route path="/pointerEvents" component={AsyncPointerEvents}/>
           <Redirect to="/"/>

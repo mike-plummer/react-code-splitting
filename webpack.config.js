@@ -19,7 +19,8 @@ module.exports = {
     extensions: ['.tsx', '.ts', '.jsx', '.js', '.css']
   },
   devServer: {
-    historyApiFallback: true
+    historyApiFallback: true,
+    host: '0.0.0.0'
   },
   devtool: 'cheap-module-source-map',
   module: {
