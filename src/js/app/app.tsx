@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Container, Menu } from 'semantic-ui-react';
-import { AsyncContext, AsyncPointerEvents } from '../async.components';
+import { AsyncCodeSplitting, AsyncContext, AsyncPointerEvents } from '../async.components';
 import Landing from '../landing';
 import { NavLink, Redirect, Route, Switch } from 'react-router-dom';
 import { hot } from 'react-hot-loader'
@@ -15,6 +15,12 @@ class AppComponent extends React.Component<AppProps> {
     return (
       <Container>
         <Menu secondary pointing>
+          <Menu.Item>
+            <div><NavLink to="/">Home</NavLink></div>
+          </Menu.Item>
+          <Menu.Item>
+            <div><NavLink to="/codeSplitting">Code Splitting</NavLink></div>
+          </Menu.Item>
           <Menu.Item
             content={<div><NavLink to="/context">Context</NavLink></div>}
           />
@@ -23,7 +29,8 @@ class AppComponent extends React.Component<AppProps> {
           />
         </Menu>
         <Switch>
-          <Route exact path="/" component={Landing} />
+          <Route exact path="/" component={Landing}/>
+          <Route path="/codeSplitting" component={AsyncCodeSplitting}/>
           <Route path="/context" component={AsyncContext}/>
           <Route path="/pointerEvents" component={AsyncPointerEvents}/>
           <Redirect to="/"/>

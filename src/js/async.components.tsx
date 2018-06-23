@@ -8,21 +8,27 @@ const Loading: React.SFC<LoadableExport.LoadingComponentProps> = ({ pastDelay })
   if (pastDelay) {
     return (
       <Dimmer>
-        <Loader />
+        <Loader/>
       </Dimmer>
     );
   }
   return null;
 };
 
+export const AsyncCodeSplitting = Loadable({
+  loader: () => import(/* webpackChunkName: "codeSplitting" */ './codeSplitting/codeSplitting'),
+  loading: Loading,
+  delay: DELAY
+});
+
 export const AsyncContext = Loadable({
-    loader: () => import(/* webpackChunkName: "context" */ './context/context'),
-    loading: Loading,
-    delay: DELAY
-  });
+  loader: () => import(/* webpackChunkName: "context" */ './context/context'),
+  loading: Loading,
+  delay: DELAY
+});
 
 export const AsyncPointerEvents = Loadable({
-  loader: () => import(/* webpackChunkName: "pointerEvents" */ './pointerEvents/pointerEvents' as any),
+  loader: () => import(/* webpackChunkName: "pointerEvents" */ './pointerEvents/pointerEvents'),
   loading: Loading,
   delay: DELAY
 });
