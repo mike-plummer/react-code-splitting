@@ -1,10 +1,21 @@
 import * as React from 'react';
 import './pointerEvents.css';
-import { Segment } from "semantic-ui-react";
+import { List, Segment } from "semantic-ui-react";
 
-interface PointerEventsProps {}
+type CanvasPointerEvent = React.PointerEvent<HTMLCanvasElement>;
+
+type Coordinate = {
+  x: number;
+  y: number;
+}
+
+interface PointerEventsProps {
+}
+
 interface PointerEventsState {
   pointerCaptured: boolean;
+  pointerDownTimestamp?: number;
+  pointerDownOrigin?: Coordinate;
 }
 
 class PointerEvents extends React.Component<PointerEventsProps, PointerEventsState> {
@@ -15,7 +26,21 @@ class PointerEvents extends React.Component<PointerEventsProps, PointerEventsSta
     pointerCaptured: false
   };
 
-  private translateCoordinates = (event: React.PointerEvent<HTMLCanvasElement>): { x: number, y: number } => {
+  private getDrawingContext = (): CanvasRenderingContext2D =>
+    this.canvasRef.current!.getContext('2d')!;
+
+  private reset = (): void => {
+    const context = this.getDrawingContext();
+    context.clearRect(0, 0, this.canvasRef.current!.width, this.canvasRef.current!.height);
+    context.closePath();
+    context.beginPath();
+    this.setState({
+      pointerDownOrigin: undefined,
+      pointerDownTimestamp: undefined
+    });
+  };
+
+  private translateCoordinates = (event: CanvasPointerEvent): Coordinate => {
     const canvasRect = this.canvasRef.current!.getBoundingClientRect();
     return {
       x: event.clientX - canvasRect.left,
@@ -23,20 +48,40 @@ class PointerEvents extends React.Component<PointerEventsProps, PointerEventsSta
     };
   };
 
-  private onDown = (event: React.PointerEvent<HTMLCanvasElement>): void => {
+  private isClearAction = (event: CanvasPointerEvent): boolean => {
+    const { pointerDownTimestamp, pointerDownOrigin } = this.state;
+    if (!pointerDownOrigin || !pointerDownTimestamp) {
+      return false;
+    }
+
+    if (new Date().getTime() - pointerDownTimestamp < 1000) {
+      return false;
+    }
+
+    const coordinate = this.translateCoordinates(event);
+    return Math.abs(coordinate.x - pointerDownOrigin.x) < 10 && Math.abs(coordinate.y - pointerDownOrigin.y) < 10;
+  };
+
+  private onDown = (event: CanvasPointerEvent): void => {
     this.canvasRef.current!.setPointerCapture(event.pointerId);
 
-    const context = this.canvasRef.current!.getContext('2d')!;
-    context.strokeStyle = '#FF0000';
+    this.getDrawingContext().strokeStyle = '#FF0000';
+
+    this.setState({
+      pointerDownTimestamp: new Date().getTime(),
+      pointerDownOrigin: this.translateCoordinates(event)
+    });
   };
 
-  private onRelease = (): void => {
-    const context = this.canvasRef.current!.getContext('2d')!;
-    context.strokeStyle = '#000000';
+  private onRelease = (event: CanvasPointerEvent): void => {
+    this.getDrawingContext().strokeStyle = '#000000';
+    if (this.isClearAction(event)) {
+      this.reset();
+    }
   };
 
-  private onMove = (event: React.PointerEvent<HTMLCanvasElement>): void => {
-    const context = this.canvasRef.current!.getContext('2d')!;
+  private onMove = (event: CanvasPointerEvent): void => {
+    const context = this.getDrawingContext();
     const coordinates = this.translateCoordinates(event);
     context.lineTo(coordinates.x, coordinates.y);
     context.stroke();
@@ -56,19 +101,24 @@ class PointerEvents extends React.Component<PointerEventsProps, PointerEventsSta
 
   render(): React.ReactNode {
     return (
-      <Segment className="PointerEvents" color={this.state.pointerCaptured ? 'blue' : undefined}>
+      <Segment
+        color={this.state.pointerCaptured ? 'blue' : undefined}
+      >
         <p>
           Before React v16.4 you'd be stuck with MouseEvents which didn't always work as expected for non-mouse
           interfaces like Touchscreens. With the PointerEvent spec you get better support for non-mouse Pointer
           capabilities.
         </p>
+        <List>
+          <List.Item>Press different points to connect them with a line.</List.Item>
+          <List.Item>Drag to draw a line while changing the color.</List.Item>
+          <List.Item>Press and hold for one second to clear.</List.Item>
+        </List>
         <canvas
-          ref={ this.canvasRef }
-          height={ 400 }
-          width={ 400 }
-          onPointerDown={ this.onDown }
-          onPointerUp={ this.onRelease }
-          onPointerMove={ this.onMove }
+          ref={this.canvasRef}
+          onPointerDown={this.onDown}
+          onPointerUp={this.onRelease}
+          onPointerMove={this.onMove}
           onGotPointerCapture={this.onCapture}
           onLostPointerCapture={this.onLoss}
         />
